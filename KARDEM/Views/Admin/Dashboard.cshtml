@@ -112,44 +112,6 @@
     </div>
 </div>
 
-@if (ViewBag.YaklasanDosyalar != null && ViewBag.YaklasanDosyalar.Count > 0)
-{
-    <div class="card shadow-sm mt-5">
-        <div class="card-header bg-warning text-dark fw-bold">
-            ⏳ Kesinleşme Tarihi Yaklaşan Dosyalar (7 Gün İçinde)
-        </div>
-        <div class="card-body p-0">
-            <table class="table table-sm table-striped mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">Mahkeme</th>
-                        <th scope="col">Esas No</th>
-                        <th scope="col">Karar No</th>
-                        <th scope="col">Kesinleşme Tarihi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var d in ViewBag.YaklasanDosyalar)
-                    {
-                        <tr>
-                            <td>@d.MahkemeAdi</td>
-                            <td>@d.EsasNo</td>
-                            <td>@d.KararNo</td>
-                            <td>@Convert.ToDateTime(d.KesinlesmeTarihi).ToString("dd.MM.yyyy")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-}
-else
-{
-    <div class="alert alert-success mt-5 text-center fw-bold">
-        ✅ Yakın zamanda kesinleşecek dosya yok.
-    </div>
-}
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const pieData = @Html.Raw(ViewBag.MahkemeDagilimi);

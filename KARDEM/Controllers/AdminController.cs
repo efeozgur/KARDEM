@@ -134,7 +134,7 @@ namespace KARDEM.Controllers
             ViewBag.ToplamYetki = _context.MahkemeYetkileri.Count();
 
             var bugun = DateTime.Today;
-            ViewBag.BugunEklenenDosya = _context.Dosyalar.Count(d => d.KararTarihi.Date == bugun);
+            ViewBag.BugunEklenenDosya = _context.Dosyalar.Count(d => d.KayitTarihi.Date == bugun);
 
             var populerMudur = _context.MahkemeYetkileri
                 .GroupBy(y => y.Kullanici)
@@ -155,7 +155,7 @@ namespace KARDEM.Controllers
                 .Select(tarih => new
                 {
                     Tarih = tarih.ToString("dd MMM"),
-                    Adet = _context.Dosyalar.Count(d => d.KararTarihi.Date == tarih)
+                    Adet = _context.Dosyalar.Count(d => d.KayitTarihi.Date == tarih)
                 }).ToList();
 
             ViewBag.HaftalikVeri = Newtonsoft.Json.JsonConvert.SerializeObject(yediGun);

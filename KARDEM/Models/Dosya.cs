@@ -19,6 +19,8 @@ namespace KARDEM.Models
         [DataType(DataType.Date)]
         public DateTime KararTarihi { get; set; }
 
+        public DateTime KayitTarihi { get; set; } = DateTime.Now;
+
         [Required(ErrorMessage = "Kararın tebliğ tarihi zorunludur.")]
         [DataType(DataType.Date)]
         public DateTime KararTebligTarihi { get; set; }

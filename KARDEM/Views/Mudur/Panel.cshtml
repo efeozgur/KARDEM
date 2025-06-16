@@ -1,0 +1,31 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Müdür Paneli";
+    Layout = "~/Views/Shared/_LayoutMudur.cshtml";
+    var mahkemeler = ViewBag.Mahkemeler as List<KARDEM.Models.Mahkeme>;
+    var kullaniciAdi = ViewBag.KullaniciAdi as string;
+}
+
+<div class="container mt-4">
+    <div class="alert alert-primary text-center">
+        <h4>👋 Hoş geldiniz, @kullaniciAdi</h4>
+        <p>Yetkili olduğunuz mahkemeleri aşağıda görebilirsiniz:</p>
+    </div>
+
+    <div class="row">
+        @foreach (var m in mahkemeler)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@m.Ad</h5>
+                        <p class="card-text">Kesinleşme süresi: @m.KesinlesmeSuresiGun gün</p>
+                        <a class="btn btn-sm btn-primary" asp-action="MahkemeDosyalari" asp-route-id="@m.Id">📂 Dosyaları Gör</a>
+                        <a class="btn btn-sm btn-success" asp-action="DosyaEkle" asp-route-mahkemeId="@m.Id">➕ Dosya Ekle</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

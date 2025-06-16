@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Yönetim Paneli";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary">📊 Yönetim Dashboard</h2>
+    <hr />
+
+    <div class="row text-white">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-success shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">👤 Müdür Sayısı</h5>
+                    <h3>@ViewBag.ToplamMudur</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">⚖️ Mahkeme Sayısı</h5>
+                    <h3>@ViewBag.ToplamMahkeme</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">📁 Dosya Sayısı</h5>
+                    <h3>@ViewBag.ToplamDosya</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-danger shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">🔗 Yetki Sayısı</h5>
+                    <h3>@ViewBag.ToplamYetki</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card bg-light border-start border-success border-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-success">📅 Bugün Eklenen Dosya</h5>
+                    <h4>@ViewBag.BugunEklenenDosya</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light border-start border-warning border-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">👑 En Yetkili Müdür</h5>
+                    <h5>@ViewBag.PopulerMudur</h5>
+                    <small>(@ViewBag.PopulerMudurSayisi mahkeme)</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light border-start border-primary border-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">🕒 Son Giriş</h5>
+                    <h6>@ViewBag.SonGirisKullanici</h6>
+                    <small>@ViewBag.SonGirisTarih</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary">🔧 Admin Paneline Git</a>
+    </div>
+</div>

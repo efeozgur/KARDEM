@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+    var kullanicilar = ViewBag.Kullanicilar as List<KARDEM.Models.Kullanici>;
+    var mahkemeler = ViewBag.Mahkemeler as List<KARDEM.Models.Mahkeme>;
+}
+<a asp-action="Dashboard" class="btn btn-outline-primary">📊 Dashboard</a>
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary">📋 KARDEM – Yönetici Paneli</h2>
+    <hr />
+
+    <div class="row">
+        <!-- Müdürler Bölümü -->
+        <div class="col-md-6">
+            <h4>👤 Müdür Ekle</h4>
+            <form asp-action="KullaniciEkle" method="post" class="mb-3">
+                <input name="kullaniciAdi" class="form-control mb-2" placeholder="Kullanıcı Adı" required />
+                <input name="sifre" type="password" class="form-control mb-2" placeholder="Şifre" required />
+                <button class="btn btn-success w-100">Müdür Ekle</button>
+            </form>
+
+            <h5 class="mt-4">📃 Mevcut Müdürler</h5>
+            <ul class="list-group">
+                @foreach (var k in kullanicilar)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@k.KullaniciAdi</span>
+                        <span class="badge bg-secondary">@k.Rol</span>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Mahkemeler Bölümü -->
+        <div class="col-md-6">
+            <h4>⚖️ Mahkeme Tanımla</h4>
+            <form asp-action="MahkemeEkle" method="post" class="mb-3">
+                <input name="ad" class="form-control mb-2" placeholder="Mahkeme Adı" required />
+                <input name="kesinlesme" type="number" class="form-control mb-2" placeholder="Kesinleşme Süresi (gün)" required />
+                <input name="istinaf" type="number" class="form-control mb-2" placeholder="İstinaf Süresi (gün)" required />
+                <input name="temyiz" type="number" class="form-control mb-2" placeholder="Temyiz Süresi (gün)" required />
+                <button class="btn btn-primary w-100">Mahkeme Ekle</button>
+            </form>
+
+            <h5 class="mt-4">📃 Tanımlı Mahkemeler</h5>
+            <ul class="list-group">
+                @foreach (var m in mahkemeler)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@m.Ad</span>
+                        <span class="text-muted">Kesinleşme: @m.KesinlesmeSuresiGun gün</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <hr class="my-5" />
+
+    <!-- Yetki Atama Bölümü -->
+    <div class="row">
+        <div class="col-md-12">
+            <h4>🔗 Yetki Atama</h4>
+            <form asp-action="YetkiAta" method="post" class="row g-2 align-items-end">
+                <div class="col-md-5">
+                    <label>Müdür Seç</label>
+                    <select name="kullaniciId" class="form-control" required>
+                        <option value="">-- Seçiniz --</option>
+                        @foreach (var k in kullanicilar)
+                        {
+                            <option value="@k.Id">@k.KullaniciAdi</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label>Mahkeme Seç</label>
+                    <select name="mahkemeId" class="form-control" required>
+                        <option value="">-- Seçiniz --</option>
+                        @foreach (var m in mahkemeler)
+                        {
+                            <option value="@m.Id">@m.Ad</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-warning w-100">Yetki Ver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a class="btn btn-outline-dark" asp-action="YetkiListesi">🗂️ Tüm Yetkileri Gör</a>
+</div>

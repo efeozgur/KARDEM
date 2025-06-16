@@ -1,0 +1,41 @@
+﻿@model List<KARDEM.Models.MahkemeYetki>
+
+@{
+    ViewData["Title"] = "Yetki Listesi";
+}
+
+<div class="container mt-5">
+    <h3 class="text-primary">🔗 Müdür-Mahkeme Yetki Listesi</h3>
+    <hr />
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Müdür</th>
+                <th>Mahkeme</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var yetki in Model)
+            {
+                <tr>
+                    <td>@yetki.Id</td>
+                    <td>@yetki.Kullanici.KullaniciAdi</td>
+                    <td>@yetki.Mahkeme.Ad</td>
+                    <td>
+                        <form asp-action="YetkiSil" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@yetki.Id" />
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Bu yetkiyi silmek istediğine emin misin?')">
+                                ❌ Sil
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary" asp-action="Index">⬅ Geri Dön</a>
+</div>

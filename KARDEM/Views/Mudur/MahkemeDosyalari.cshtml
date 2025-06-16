@@ -1,0 +1,95 @@
+﻿@model List<KARDEM.Models.Dosya>
+@{
+    ViewData["Title"] = "Mahkeme Dosyaları";
+    Layout = "~/Views/Shared/_LayoutMudur.cshtml";
+    var mahkeme = ViewBag.Mahkeme as KARDEM.Models.Mahkeme;
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <h4 class="card-title text-primary mb-4">📁 @mahkeme.Ad – <span class="fw-normal">Kendi Eklediğiniz Dosyalar</span></h4>
+            <a asp-action="Panel" class="btn btn-outline-secondary btn-sm mb-3">
+                ⬅ Geri Dön
+            </a>
+
+            @if (Model.Count == 0)
+            {
+                <div class="alert alert-info rounded-pill shadow-sm text-center fw-semibold">
+                    Bu mahkeme için henüz dosya eklemediniz.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle table-bordered table-striped">
+                        <thead class="table-dark text-center">
+                            <tr>
+                                <th>Esas No</th>
+                                <th>Karar No</th>
+                                <th>Karar Tarihi</th>
+                                <th>Tebliğ Tarihi</th>
+                                <th>Kesinleşme Tarihi</th>
+                                <th>Not</th>
+                                <th style="min-width: 240px;">Üst Mahkeme İşlemleri</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var d in Model)
+                            {
+                                <tr>
+                                    <td>@d.EsasNo</td>
+                                    <td>@d.KararNo</td>
+                                    <td>@d.KararTarihi.ToShortDateString()</td>
+                                    <td>@d.KararTebligTarihi.ToShortDateString()</td>
+                                    <td>@d.KesinlesmeTarihi.ToShortDateString()</td>
+                                    <td>@d.DosyaNotu</td>
+                                    <td>
+                                        @if (d.IstinafBilgileri != null && d.IstinafBilgileri.Any())
+                                        {
+                                            <ul class="list-unstyled mb-1">
+                                                @foreach (var istinaf in d.IstinafBilgileri)
+                                                {
+                                                    <li class="mb-1">
+                                                        <span class="badge bg-info">@istinaf.IstinafEdenTaraf</span>
+                                                        <a class="btn btn-outline-primary btn-sm ms-2"
+                                                           asp-action="IstinafDuzenle"
+                                                           asp-route-istinafId="@istinaf.Id">
+                                                            ✏️ Düzenle
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+
+                                            var taraflar = d.IstinafBilgileri.Select(i => i.IstinafEdenTaraf).ToList();
+                                            bool davaciGirildi = taraflar.Contains("Davacı");
+                                            bool davaliGirildi = taraflar.Contains("Davalı");
+                                            bool yeniGirisGerekli = !(davaciGirildi && davaliGirildi);
+
+                                            @if (yeniGirisGerekli)
+                                            {
+                                                <a class="btn btn-success btn-sm mt-2"
+                                                   asp-action="IstinafEkle"
+                                                   asp-route-dosyaId="@d.Id">
+                                                    ➕ Yeni İstinaf Talebi Gir
+                                                </a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-warning btn-sm"
+                                               asp-action="IstinafEkle"
+                                               asp-route-dosyaId="@d.Id">
+                                                ➕ İstinaf Bilgisi Gir
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

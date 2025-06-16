@@ -1,4 +1,5 @@
 ﻿using KARDEM.Context;
+using KARDEM.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
@@ -31,6 +32,7 @@ namespace KARDEM.Controllers
             {
                 HttpContext.Session.SetInt32("KullaniciId", kullanici.Id);
                 HttpContext.Session.SetString("Rol", kullanici.Rol);
+                HttpContext.Session.SetString("AdSoyad", kullanici.AdSoyad);
                 HttpContext.Session.SetString("KullaniciAdi", kullanici.KullaniciAdi);
                 if (kullanici.Rol == "Admin")
                     return RedirectToAction("Dashboard", "Admin");

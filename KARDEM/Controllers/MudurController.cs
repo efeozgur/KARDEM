@@ -19,13 +19,44 @@ namespace KARDEM.Controllers
             var kullaniciId = HttpContext.Session.GetInt32("KullaniciId");
             if (kullaniciId == null) return RedirectToAction("Index", "Giris");
 
-            var yetkiliMahkemeler = _context.MahkemeYetkileri
+            // ViewBag için adSoyad ve kullanıcı adı
+            var kullanici = _context.Kullanicilar.Find(kullaniciId);
+            ViewBag.AdSoyad = kullanici?.KullaniciAdi;
+            ViewBag.KullaniciAdi = kullanici?.KullaniciAdi;
+
+            // Yetkili mahkemeler
+            var mahkemeler = _context.MahkemeYetkileri
                 .Where(y => y.KullaniciId == kullaniciId)
+                .Include(y => y.Mahkeme)
                 .Select(y => y.Mahkeme)
                 .ToList();
 
-            ViewBag.KullaniciAdi = HttpContext.Session.GetString("KullaniciAdi");
-            ViewBag.Mahkemeler = yetkiliMahkemeler;
+            ViewBag.Mahkemeler = mahkemeler;
+
+            // Kesinleşme süresi yaklaşan dosyalar (önceki verdiğimiz LINQ çözümü)
+            var bugun = DateTime.Today;
+
+            var dosyalar = _context.Dosyalar
+                .Include(d => d.Mahkeme)
+                .Where(d => mahkemeler.Select(m => m.Id).Contains(d.MahkemeId))
+                .ToList();
+
+            var yaklasan = dosyalar
+                .Where(d =>
+                    d.KesinlesmeTarihi != null &&
+                    (d.KesinlesmeTarihi - bugun).TotalDays <= 7 &&
+                    (d.KesinlesmeTarihi - bugun).TotalDays >= 0)
+                .OrderBy(d => d.KesinlesmeTarihi)
+                .Select(d => new
+                {
+                    d.EsasNo,
+                    d.KararNo,
+                    d.KesinlesmeTarihi,
+                    MahkemeAdi = d.Mahkeme.Ad
+                })
+                .ToList();
+
+            ViewBag.YaklasanDosyalar = yaklasan;
 
             return View();
         }

@@ -31,7 +31,7 @@ namespace KARDEM.Controllers
         }
 
         [HttpPost]
-        public IActionResult KullaniciEkle(string kullaniciAdi, string sifre)
+        public IActionResult KullaniciEkle(string kullaniciAdi, string sifre, string adsoyad)
         {
             if (!AdminMi()) return RedirectToAction("Index", "Giris");
 
@@ -40,6 +40,7 @@ namespace KARDEM.Controllers
             {
                 KullaniciAdi = kullaniciAdi,
                 Sifre = hashliSifre,
+                AdSoyad = adsoyad,
                 Rol = "Mudur",
                 AktifMi = true
             };
@@ -135,7 +136,6 @@ namespace KARDEM.Controllers
             var bugun = DateTime.Today;
             ViewBag.BugunEklenenDosya = _context.Dosyalar.Count(d => d.KararTarihi.Date == bugun);
 
-            // En çok yetkili müdür
             var populerMudur = _context.MahkemeYetkileri
                 .GroupBy(y => y.Kullanici)
                 .Select(grp => new { Kullanici = grp.Key, YetkiSayisi = grp.Count() })
@@ -145,9 +145,31 @@ namespace KARDEM.Controllers
             ViewBag.PopulerMudur = populerMudur?.Kullanici?.KullaniciAdi ?? "Yok";
             ViewBag.PopulerMudurSayisi = populerMudur?.YetkiSayisi ?? 0;
 
-            // Son giriş yapan kullanıcı (kayıt tutuyorsan)
             ViewBag.SonGirisKullanici = HttpContext.Session.GetString("KullaniciAdi");
-            ViewBag.SonGirisTarih = DateTime.Now.ToString("dd.MM.yyyy HH:mm"); // Basit temsil
+            ViewBag.SonGirisTarih = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
+
+            // Haftalık dosya girişi verisi (Chart için)
+            var yediGun = Enumerable.Range(0, 7)
+                .Select(i => bugun.AddDays(-i))
+                .OrderBy(d => d)
+                .Select(tarih => new
+                {
+                    Tarih = tarih.ToString("dd MMM"),
+                    Adet = _context.Dosyalar.Count(d => d.KararTarihi.Date == tarih)
+                }).ToList();
+
+            ViewBag.HaftalikVeri = Newtonsoft.Json.JsonConvert.SerializeObject(yediGun);
+
+            var mahkemeDagilimi = _context.Dosyalar
+                .Include(d => d.Mahkeme)
+                .GroupBy(d => d.Mahkeme.Ad)
+                .Select(grp => new
+                {
+                    MahkemeAdi = grp.Key,
+                    DosyaSayisi = grp.Count()
+                }).ToList();
+
+            ViewBag.MahkemeDagilimi = Newtonsoft.Json.JsonConvert.SerializeObject(mahkemeDagilimi);
 
             return View();
         }

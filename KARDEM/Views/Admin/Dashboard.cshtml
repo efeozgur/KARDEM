@@ -2,80 +2,240 @@
     ViewData["Title"] = "Yönetim Paneli";
 }
 
-<div class="container mt-5">
-    <h2 class="text-center text-primary">📊 Yönetim Dashboard</h2>
-    <hr />
+<div class="container py-5">
+    <h2 class="text-center text-primary mb-4 fw-bold">📊 Yönetim Dashboard</h2>
 
-    <div class="row text-white">
-        <div class="col-md-3 mb-3">
-            <div class="card bg-success shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title">👤 Müdür Sayısı</h5>
-                    <h3>@ViewBag.ToplamMudur</h3>
+    <div class="row g-4">
+        <!-- Müdür Sayısı -->
+        <div class="col-md-3">
+            <div class="card text-white bg-gradient shadow border-0" style="background-color: #28a745;">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-tie fa-3x mb-2"></i>
+                    <h6 class="text-uppercase">Müdür Sayısı</h6>
+                    <h3 class="fw-bold">@ViewBag.ToplamMudur</h3>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-info shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title">⚖️ Mahkeme Sayısı</h5>
-                    <h3>@ViewBag.ToplamMahkeme</h3>
+        <!-- Mahkeme Sayısı -->
+        <div class="col-md-3">
+            <div class="card text-white bg-gradient shadow border-0" style="background-color: #17a2b8;">
+                <div class="card-body text-center">
+                    <i class="fas fa-balance-scale fa-3x mb-2"></i>
+                    <h6 class="text-uppercase">Mahkeme Sayısı</h6>
+                    <h3 class="fw-bold">@ViewBag.ToplamMahkeme</h3>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title">📁 Dosya Sayısı</h5>
-                    <h3>@ViewBag.ToplamDosya</h3>
+        <!-- Dosya Sayısı -->
+        <div class="col-md-3">
+            <div class="card text-white bg-gradient shadow border-0" style="background-color: #ffc107;">
+                <div class="card-body text-center">
+                    <i class="fas fa-folder fa-3x mb-2"></i>
+                    <h6 class="text-uppercase">Dosya Sayısı</h6>
+                    <h3 class="fw-bold">@ViewBag.ToplamDosya</h3>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-danger shadow text-center">
-                <div class="card-body">
-                    <h5 class="card-title">🔗 Yetki Sayısı</h5>
-                    <h3>@ViewBag.ToplamYetki</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card bg-light border-start border-success border-4 shadow">
-                <div class="card-body">
-                    <h5 class="card-title text-success">📅 Bugün Eklenen Dosya</h5>
-                    <h4>@ViewBag.BugunEklenenDosya</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card bg-light border-start border-warning border-4 shadow">
-                <div class="card-body">
-                    <h5 class="card-title text-warning">👑 En Yetkili Müdür</h5>
-                    <h5>@ViewBag.PopulerMudur</h5>
-                    <small>(@ViewBag.PopulerMudurSayisi mahkeme)</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card bg-light border-start border-primary border-4 shadow">
-                <div class="card-body">
-                    <h5 class="card-title text-primary">🕒 Son Giriş</h5>
-                    <h6>@ViewBag.SonGirisKullanici</h6>
-                    <small>@ViewBag.SonGirisTarih</small>
+        <!-- Yetki Sayısı -->
+        <div class="col-md-3">
+            <div class="card text-white bg-gradient shadow border-0" style="background-color: #dc3545;">
+                <div class="card-body text-center">
+                    <i class="fas fa-link fa-3x mb-2"></i>
+                    <h6 class="text-uppercase">Yetki Sayısı</h6>
+                    <h3 class="fw-bold">@ViewBag.ToplamYetki</h3>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="text-center mt-4">
-        <a asp-action="Index" class="btn btn-outline-secondary">🔧 Admin Paneline Git</a>
+    <div class="row g-4 mt-4">
+        <!-- Bugün Eklenen Dosya -->
+        <div class="col-md-4">
+            <div class="card shadow border-start border-4 border-success h-100">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase">📅 Bugün Eklenen Dosya</h6>
+                    <h3 class="text-success fw-bold">@ViewBag.BugunEklenenDosya</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- En Çok Yetki Verilen Müdür -->
+        <div class="col-md-4">
+            <div class="card shadow border-start border-4 border-warning h-100">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase">👑 En Çok Yetkilendirilen Müdür</h6>
+                    <h5 class="fw-bold">@ViewBag.PopulerMudur</h5>
+                    <small class="text-muted">Toplam @ViewBag.PopulerMudurSayisi mahkeme</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Son Giriş -->
+        <div class="col-md-4">
+            <div class="card shadow border-start border-4 border-primary h-100">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase">🕒 Son Giriş Yapan</h6>
+                    <h5 class="fw-bold">@ViewBag.SonGirisKullanici</h5>
+                    <small class="text-muted">@ViewBag.SonGirisTarih</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a asp-action="Index" class="btn btn-outline-secondary shadow-sm px-4 py-2">
+            <i class="fas fa-cogs me-1"></i> Admin Paneline Git
+        </a>
     </div>
 </div>
+
+<!-- Haftalık Dosya Girişi Grafiği -->
+<!-- Mahkemeye Göre Dosya Dağılımı -->
+<div class="row">
+    <div class="col-md-5">
+
+        <div class="mt-5">
+            <h4 class="text-center text-secondary mb-3">⚖️ Mahkemelere Göre Dosya Dağılımı</h4>
+            <canvas id="mahkemePieChart" height="100"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+
+        <div class="mt-5">
+            <h4 class="text-center text-secondary mb-3">📈 Haftalık Dosya Girişi</h4>
+            <canvas id="haftalikChart" height="100"></canvas>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.YaklasanDosyalar != null && ViewBag.YaklasanDosyalar.Count > 0)
+{
+    <div class="card shadow-sm mt-5">
+        <div class="card-header bg-warning text-dark fw-bold">
+            ⏳ Kesinleşme Tarihi Yaklaşan Dosyalar (7 Gün İçinde)
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-sm table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Mahkeme</th>
+                        <th scope="col">Esas No</th>
+                        <th scope="col">Karar No</th>
+                        <th scope="col">Kesinleşme Tarihi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in ViewBag.YaklasanDosyalar)
+                    {
+                        <tr>
+                            <td>@d.MahkemeAdi</td>
+                            <td>@d.EsasNo</td>
+                            <td>@d.KararNo</td>
+                            <td>@Convert.ToDateTime(d.KesinlesmeTarihi).ToString("dd.MM.yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-success mt-5 text-center fw-bold">
+        ✅ Yakın zamanda kesinleşecek dosya yok.
+    </div>
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const pieData = @Html.Raw(ViewBag.MahkemeDagilimi);
+
+        const pieCtx = document.getElementById("mahkemePieChart").getContext("2d");
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: pieData.map(m => m.MahkemeAdi),
+                datasets: [{
+                    label: 'Dosya Sayısı',
+                    data: pieData.map(m => m.DosyaSayisi),
+                    backgroundColor: [
+                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1', '#17a2b8'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed || 0;
+                                return ` ${label}: ${value} dosya`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const veri = @Html.Raw(ViewBag.HaftalikVeri);
+
+        const ctx = document.getElementById("haftalikChart").getContext("2d");
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: veri.map(v => v.Tarih),
+                datasets: [{
+                    label: 'Günlük Dosya Sayısı',
+                    data: veri.map(v => v.Adet),
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${context.parsed.y} dosya`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

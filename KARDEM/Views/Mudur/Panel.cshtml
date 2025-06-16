@@ -5,15 +5,17 @@
     Layout = "~/Views/Shared/_LayoutMudur.cshtml";
     var mahkemeler = ViewBag.Mahkemeler as List<KARDEM.Models.Mahkeme>;
     var kullaniciAdi = ViewBag.KullaniciAdi as string;
+    var adSoyad = ViewBag.AdSoyad as string;
 }
 
 <div class="container mt-4">
     <div class="alert alert-primary text-center">
-        <h4>👋 Hoş geldiniz, @kullaniciAdi</h4>
+        <h4>👋 Hoş geldiniz, Sayın @adSoyad</h4>
         <p>Yetkili olduğunuz mahkemeleri aşağıda görebilirsiniz:</p>
     </div>
 
     <div class="row">
+
         @foreach (var m in mahkemeler)
         {
             <div class="col-md-4">
@@ -29,3 +31,41 @@
         }
     </div>
 </div>
+
+@if (ViewBag.YaklasanDosyalar != null && ViewBag.YaklasanDosyalar.Count > 0)
+{
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-danger text-white fw-bold">
+            ⏳ Kesinleşme Süresi Yaklaşan Dosyalar (7 Gün İçinde)
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-sm table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Mahkeme</th>
+                        <th>Esas No</th>
+                        <th>Karar No</th>
+                        <th>Kesinleşme Tarihi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in ViewBag.YaklasanDosyalar)
+                    {
+                        <tr>
+                            <td>@d.MahkemeAdi</td>
+                            <td>@d.EsasNo</td>
+                            <td>@d.KararNo</td>
+                            <td>@Convert.ToDateTime(d.KesinlesmeTarihi).ToString("dd.MM.yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-success mt-4 text-center fw-bold">
+        ✅ Yakın zamanda kesinleşecek dosya bulunmuyor.
+    </div>
+}

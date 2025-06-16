@@ -14,6 +14,8 @@ namespace KARDEM.Models
         [StringLength(100)]
         public string Sifre { get; set; }
 
+        public string AdSoyad { get; set; }
+
         [Required]
         public string Rol { get; set; }
 

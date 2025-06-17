@@ -87,6 +87,15 @@
                     <button class="btn btn-warning w-100">Yetki Ver</button>
                 </div>
             </form>
+
+            @if (TempData["Hata"] != null)
+            {
+                <div class="mt-3 alert alert-danger">@TempData["Hata"]</div>
+            }
+            @if (TempData["Basari"] != null)
+            {
+                <div class="mt-3 alert alert-success">@TempData["Basari"]</div>
+            }
         </div>
     </div>
 </div>

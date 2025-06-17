@@ -21,7 +21,7 @@ namespace KARDEM.Controllers
 
             // ViewBag için adSoyad ve kullanıcı adı
             var kullanici = _context.Kullanicilar.Find(kullaniciId);
-            ViewBag.AdSoyad = kullanici?.KullaniciAdi;
+            ViewBag.AdSoyad = kullanici?.AdSoyad;
             ViewBag.KullaniciAdi = kullanici?.KullaniciAdi;
 
             // Yetkili mahkemeler

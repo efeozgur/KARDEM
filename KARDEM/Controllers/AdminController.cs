@@ -73,10 +73,17 @@ namespace KARDEM.Controllers
         [HttpPost]
         public IActionResult YetkiAta(int kullaniciId, int mahkemeId)
         {
-            if (!AdminMi()) return RedirectToAction("Index", "Giris");
+            if (!AdminMi())
+                return RedirectToAction("Index", "Giris");
 
-            bool zatenVar = _context.MahkemeYetkileri.Any(x => x.KullaniciId == kullaniciId && x.MahkemeId == mahkemeId);
-            if (!zatenVar)
+            bool zatenVar = _context.MahkemeYetkileri
+                .Any(x => x.KullaniciId == kullaniciId && x.MahkemeId == mahkemeId);
+
+            if (zatenVar)
+            {
+                TempData["Hata"] = "Bu müdüre zaten bu mahkeme atanmış.";
+            }
+            else
             {
                 _context.MahkemeYetkileri.Add(new MahkemeYetki
                 {
@@ -84,6 +91,8 @@ namespace KARDEM.Controllers
                     MahkemeId = mahkemeId
                 });
                 _context.SaveChanges();
+
+                TempData["Basari"] = "Yetki başarıyla atandı.";
             }
 
             return RedirectToAction("Index");

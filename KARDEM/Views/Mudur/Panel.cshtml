@@ -23,6 +23,8 @@
                     <div class="card-body">
                         <h5 class="card-title">@m.Ad</h5>
                         <p class="card-text">Kesinleşme süresi: @m.KesinlesmeSuresiGun gün</p>
+                        <p class="card-text">İstinaf süresi: @m.IstinafSuresiGun gün</p>
+                        <p class="card-text">Temyiz süresi: @m.TemyizSuresiGun gün</p>
                         <a class="btn btn-sm btn-primary" asp-action="MahkemeDosyalari" asp-route-id="@m.Id">📂 Dosyaları Gör</a>
                         <a class="btn btn-sm btn-success" asp-action="DosyaEkle" asp-route-mahkemeId="@m.Id">➕ Dosya Ekle</a>
                     </div>

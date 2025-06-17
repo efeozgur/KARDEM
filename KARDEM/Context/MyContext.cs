@@ -49,6 +49,11 @@ namespace KARDEM.Context
                 .WithMany()
                 .HasForeignKey(d => d.EkleyenKullaniciId)
                 .OnDelete(DeleteBehavior.NoAction); // Müdür silinse bile dosyalar silinmesin
+
+            //aynı müdüre aynı mahkeme veritabanında ikinci kez atanamaz
+            modelBuilder.Entity<MahkemeYetki>()
+                .HasIndex(y => new { y.KullaniciId, y.MahkemeId })
+                .IsUnique();
         }
     }
 }

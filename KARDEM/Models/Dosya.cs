@@ -42,21 +42,13 @@ namespace KARDEM.Models
             {
                 var hesaplanan = KararTebligTarihi.AddDays(Mahkeme?.KesinlesmeSuresiGun ?? 0);
                 var gun = hesaplanan.DayOfWeek;
-
-                if (gun == DayOfWeek.Saturday || gun == DayOfWeek.Sunday)
-                {
-                    // Hafta sonuna denk gelirse → Salı
-                    return hesaplanan.AddDays(DayOfWeek.Tuesday - gun + (gun == DayOfWeek.Sunday ? 7 : 0));
-                }
-                else if (gun == DayOfWeek.Monday)
-                {
-                    return hesaplanan.AddDays(1);
-                }
-                else
-                {
-                    // Cuma da dahil → olduğu gün kesinleşir
-                    return hesaplanan;
-                }
+                if (gun == DayOfWeek.Saturday)
+                    return hesaplanan.AddDays(3); // Salı
+                if (gun == DayOfWeek.Sunday)
+                    return hesaplanan.AddDays(2); // Salı
+                if (gun == DayOfWeek.Monday)
+                    return hesaplanan.AddDays(1); // Salı
+                return hesaplanan;
             }
         }
     }

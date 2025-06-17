@@ -1,9 +1,18 @@
-using KARDEM.Context;
+﻿using KARDEM.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// 🔧 Add services to the container
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession();
+
+// ✅ Session konfigürasyonu (30 dakika süreli)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // 30 dakika işlem yapılmazsa oturum sona erer
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -12,18 +21,20 @@ builder.Services.AddDbContext<MyContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 🔧 Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseSession();
+
 app.UseRouting();
+
+// ✅ Session mutlaka UseRouting ile Authorization arasına gelmeli
+app.UseSession();
 
 app.UseAuthorization();
 

@@ -16,7 +16,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <b>KARDEM</b> Panel Girişi
+            <b style="color:#007bff">KARDEM</b> <span style="font-weight:300;">Panel Girişi</span>
         </div>
 
         <div class="card">
@@ -25,12 +25,18 @@
 
                 @if (ViewBag.Hata != null)
                 {
-                    <div class="alert alert-danger text-sm">@ViewBag.Hata</div>
+                    <div id="hataMesaji" class="alert alert-danger text-sm">@ViewBag.Hata</div>
                 }
+
+                <script>
+                    setTimeout(() => {
+                        $('#hataMesaji').fadeOut('slow');
+                    }, 4000);
+                </script>
 
                 <form method="post">
                     <div class="input-group mb-3">
-                        <input name="kullaniciAdi" class="form-control" placeholder="Kullanıcı Adı" required />
+                        <input name="kullaniciAdi" class="form-control" placeholder="Kullanıcı Adı" required autofocus />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -49,7 +55,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt mr-1"></i>  Giriş Yap</button>
                         </div>
                     </div>
                 </form>

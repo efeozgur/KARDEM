@@ -26,7 +26,7 @@ namespace KARDEM.Controllers
         {
             var hashliSifre = Sifrele(sifre);
             var kullanici = _context.Kullanicilar
-                .FirstOrDefault(p => p.KullaniciAdi == kullaniciAdi && /*p.Sifre == hashliSifre && */p.AktifMi);
+                .FirstOrDefault(p => p.KullaniciAdi == kullaniciAdi && p.Sifre == hashliSifre && p.AktifMi);
 
             if (kullanici != null)
             {
@@ -50,7 +50,7 @@ namespace KARDEM.Controllers
             return RedirectToAction("Index");
         }
 
-        private object Sifrele(string sifre)
+        private string Sifrele(string sifre)
         {
             using (SHA256 sha = SHA256.Create())
             {

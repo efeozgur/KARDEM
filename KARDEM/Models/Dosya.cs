@@ -34,6 +34,7 @@ namespace KARDEM.Models
         public Kullanici EkleyenKullanici { get; set; }
 
         public List<IstinafBilgisi> IstinafBilgileri { get; set; }
+        public Harc HarcBilgileri { get; set; }
 
         // Otomatik hesaplanan Kesinleşme Tarihi
         public DateTime KesinlesmeTarihi

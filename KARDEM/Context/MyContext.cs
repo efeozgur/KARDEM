@@ -13,6 +13,7 @@ namespace KARDEM.Context
         public DbSet<MahkemeYetki> MahkemeYetkileri { get; set; }
         public DbSet<Dosya> Dosyalar { get; set; }
         public DbSet<IstinafBilgisi> IstinafBilgileri { get; set; }
+        public DbSet<Harc> HarcBilgileri { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,6 +50,11 @@ namespace KARDEM.Context
                 .WithMany()
                 .HasForeignKey(d => d.EkleyenKullaniciId)
                 .OnDelete(DeleteBehavior.NoAction); // Müdür silinse bile dosyalar silinmesin
+
+            modelBuilder.Entity<Harc>()
+                .HasOne(p => p.Dosya)
+                .WithMany()
+                .HasForeignKey(k => k.DosyaId);
         }
     }
 }

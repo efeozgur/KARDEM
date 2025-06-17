@@ -32,6 +32,7 @@
                                 <th>Kesinleşme Tarihi</th>
                                 <th>Not</th>
                                 <th style="min-width: 240px;">Üst Mahkeme İşlemleri</th>
+                                <th style="min-width: 240px;">Harç İşlemleri</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,6 +84,13 @@
                                                 ➕ İstinaf Bilgisi Gir
                                             </a>
                                         }
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm"
+                                           asp-action="HarcEkle"
+                                           asp-route-dosyaId="@d.Id">
+                                            ➕ Harç Ekle
+                                        </a>
                                     </td>
                                 </tr>
                             }

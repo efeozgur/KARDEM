@@ -4,6 +4,7 @@ using KARDEM.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KARDEM.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20250617044155_HarcIslem")]
+    partial class HarcIslem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,9 +81,6 @@ namespace KARDEM.Migrations
                     b.Property<int>("DosyaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DosyaId1")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("HarcMiktari")
                         .HasColumnType("decimal(18,2)");
 
@@ -99,10 +99,6 @@ namespace KARDEM.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DosyaId");
-
-                    b.HasIndex("DosyaId1")
-                        .IsUnique()
-                        .HasFilter("[DosyaId1] IS NOT NULL");
 
                     b.ToTable("HarcBilgileri");
                 });
@@ -252,10 +248,6 @@ namespace KARDEM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KARDEM.Models.Dosya", null)
-                        .WithOne("HarcBilgileri")
-                        .HasForeignKey("KARDEM.Models.Harc", "DosyaId1");
-
                     b.Navigation("Dosya");
                 });
 
@@ -291,9 +283,6 @@ namespace KARDEM.Migrations
 
             modelBuilder.Entity("KARDEM.Models.Dosya", b =>
                 {
-                    b.Navigation("HarcBilgileri")
-                        .IsRequired();
-
                     b.Navigation("IstinafBilgileri");
                 });
 

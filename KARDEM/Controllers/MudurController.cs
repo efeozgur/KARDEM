@@ -1,7 +1,9 @@
 ﻿using KARDEM.Context;
+using KARDEM.Migrations;
 using KARDEM.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace KARDEM.Controllers
 {
@@ -21,7 +23,7 @@ namespace KARDEM.Controllers
 
             // ViewBag için adSoyad ve kullanıcı adı
             var kullanici = _context.Kullanicilar.Find(kullaniciId);
-            ViewBag.AdSoyad = kullanici?.KullaniciAdi;
+            ViewBag.AdSoyad = kullanici?.AdSoyad;
             ViewBag.KullaniciAdi = kullanici?.KullaniciAdi;
 
             // Yetkili mahkemeler
@@ -194,6 +196,41 @@ namespace KARDEM.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("MahkemeDosyalari", new { id = orjinal.Dosya.MahkemeId });
+        }
+
+        [HttpGet]
+        public IActionResult HarcEkle(int dosyaId)
+        {
+            var kullaniciId = HttpContext.Session.GetInt32("KullaniciId");
+            if (kullaniciId == null) return RedirectToAction("Index", "Giris");
+
+            var dosya = _context.Dosyalar.FirstOrDefault(d => d.Id == dosyaId && d.EkleyenKullaniciId == kullaniciId);
+            if (dosya == null) return NotFound();
+
+            ViewBag.Dosya = dosya;
+            return View(new Harc { DosyaId = dosya.Id });
+        }
+
+        public IActionResult HarcListesi(string arama = "", string yazilma = "tum", string sirala = "")
+        {
+            var kullaniciId = HttpContext.Session.GetInt32("KullaniciId");
+            if (kullaniciId == null)
+                return RedirectToAction("Index", "Giris");
+
+            var harclar = _context.HarcBilgileri
+                .Include(h => h.Dosya)
+                .Where(h => h.Dosya.EkleyenKullaniciId == kullaniciId)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(arama))
+            {
+                harclar = harclar.Where(h =>
+                    h.Dosya.EsasNo.Contains(arama) ||
+                    h.Dosya.KararNo.Contains(arama));
+            }
+
+            ViewBag.AktifArama = arama;
+            return View(harclar.ToList());
         }
     }
 }

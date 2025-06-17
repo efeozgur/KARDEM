@@ -4,6 +4,7 @@ using KARDEM.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KARDEM.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20250617055408_HarcBilgileri")]
+    partial class HarcBilgileri
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,9 +103,7 @@ namespace KARDEM.Migrations
 
                     b.HasIndex("DosyaId");
 
-                    b.HasIndex("DosyaId1")
-                        .IsUnique()
-                        .HasFilter("[DosyaId1] IS NOT NULL");
+                    b.HasIndex("DosyaId1");
 
                     b.ToTable("HarcBilgileri");
                 });
@@ -253,8 +254,8 @@ namespace KARDEM.Migrations
                         .IsRequired();
 
                     b.HasOne("KARDEM.Models.Dosya", null)
-                        .WithOne("HarcBilgileri")
-                        .HasForeignKey("KARDEM.Models.Harc", "DosyaId1");
+                        .WithMany("HarcBilgileri")
+                        .HasForeignKey("DosyaId1");
 
                     b.Navigation("Dosya");
                 });
@@ -291,8 +292,7 @@ namespace KARDEM.Migrations
 
             modelBuilder.Entity("KARDEM.Models.Dosya", b =>
                 {
-                    b.Navigation("HarcBilgileri")
-                        .IsRequired();
+                    b.Navigation("HarcBilgileri");
 
                     b.Navigation("IstinafBilgileri");
                 });

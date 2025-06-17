@@ -1,0 +1,74 @@
+﻿@model IEnumerable<KARDEM.Models.Harc>
+
+@{
+    ViewData["Title"] = "Harç Listesi";
+    Layout = "~/Views/Shared/_LayoutMudur.cshtml";
+
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    int pageSize = ViewBag.PageSize ?? 10;
+    string currentSort = ViewBag.CurrentSort ?? "EsasNo";
+    string currentFilter = ViewBag.CurrentFilter ?? "";
+}
+
+<div class="container mt-4">
+    <h4 class="mb-4">📄 Harç Listesi</h4>
+
+    <form method="get" class="mb-3 row">
+        <div class="col-md-6">
+            <input type="text" name="arama" class="form-control" placeholder="Esas No veya Karar No" value="@ViewBag.AktifArama" />
+        </div>
+        <div class="col-md-3">
+            <select name="pageSize" class="form-control" onchange="this.form.submit()">
+                @{
+                    int[] pageSizes = new[] { 10, 20, 50, 100 };
+                    foreach (var size in pageSizes)
+                    {
+                        var isSelected = size == pageSize ? "selected" : "";
+                        <text>
+                            <option value="@size" isSelected>@size</option>
+                        </text>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary btn-block">Filtrele</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th><a href="?sort=EsasNo">Esas No</a></th>
+                <th><a href="?sort=KararNo">Karar No</a></th>
+                <th><a href="?sort=HarcMiktari">Harç Miktarı</a></th>
+                <th><a href="?sort=HarcTuru">Harç Türü</a></th>
+                <th><a href="?sort=HarcinTarafi">Taraf</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var harc in Model)
+            {
+                <tr>
+                    <td>@harc.Dosya?.EsasNo</td>
+                    <td>@harc.Dosya?.KararNo</td>
+                    <td>@harc.HarcMiktari ₺</td>
+                    <td>@harc.HarcTuru</td>
+                    <td>@harc.HarcinTarafi</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="?page=@i&search=@currentFilter&pageSize=@pageSize">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

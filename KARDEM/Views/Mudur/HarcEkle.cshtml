@@ -1,0 +1,42 @@
+﻿@model KARDEM.Models.Harc
+@{
+    ViewData["Title"] = "Harç Bilgisi Ekle";
+    Layout = "~/Views/Shared/_LayoutMudur.cshtml";
+    var dosya = ViewBag.Dosya as KARDEM.Models.Dosya;
+}
+
+<div class="container mt-4">
+    <h4>📄 @dosya.EsasNo / @dosya.KararNo Harç Bilgisi</h4>
+
+    <form method="post" asp-action="HarcEkle">
+        <input type="hidden" asp-for="DosyaId" />
+
+        <div class="form-group">
+            <label>Harç Yazılacak Taraf</label>
+            <select asp-for="HarcinTarafi" asp-items="@Html.GetEnumSelectList<Taraf>()" class="form-control"></select>
+        </div>
+
+        <div class="form-group mt-2">
+            <label>Harç Türü</label>
+            <select asp-for="HarcTuru" asp-items="@Html.GetEnumSelectList<HarcTuru>()" class="form-control"></select>
+        </div>
+
+        <div class="form-group mt-2">
+            <label>Harç Miktarı</label>
+            <input asp-for="HarcMiktari" type="number" class="form-control" required />
+        </div>
+
+        <div class="form-group mt-2">
+            <label>Harç Yazılacak Tarih</label>
+            <input asp-for="HarcYazilacakTarih" type="date" class="form-control" />
+        </div>
+
+        <div class="form-check mt-3">
+            <input asp-for="YazilmaDurumu" class="form-check-input" />
+            <label class="form-check-label">Yazılma durumu</label>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">💾 Kaydet</button>
+        <a asp-action="Panel" class="btn btn-secondary mt-3">İptal</a>
+    </form>
+</div>

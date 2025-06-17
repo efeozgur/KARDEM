@@ -198,6 +198,27 @@ namespace KARDEM.Controllers
             return RedirectToAction("MahkemeDosyalari", new { id = orjinal.Dosya.MahkemeId });
         }
 
+        [HttpPost]
+        public IActionResult HarcEkle(Harc harc)
+        {
+            var kullaniciId = HttpContext.Session.GetInt32("KullaniciId");
+            if (kullaniciId == null) return RedirectToAction("Index", "Giris");
+
+            var dosya = _context.Dosyalar
+                .Include(d => d.Mahkeme)
+                .Include(d => d.HarcBilgileri)
+                .FirstOrDefault(d => d.Id == harc.DosyaId && d.EkleyenKullaniciId == kullaniciId);
+
+            if (ModelState.IsValid)
+            {
+                _context.HarcBilgileri.Add(harc);
+                _context.SaveChanges();
+                return RedirectToAction("HarcEkle");
+            }
+            ViewBag.Dosya = dosya;
+            return View();
+        }
+
         [HttpGet]
         public IActionResult HarcEkle(int dosyaId)
         {

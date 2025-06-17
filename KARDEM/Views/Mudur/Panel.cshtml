@@ -34,32 +34,40 @@
 
 @if (ViewBag.YaklasanDosyalar != null && ViewBag.YaklasanDosyalar.Count > 0)
 {
-    <div class="card shadow-sm mt-4">
-        <div class="card-header bg-danger text-white fw-bold">
-            ⏳ Kesinleşme Süresi Yaklaşan Dosyalar (7 Gün İçinde)
-        </div>
-        <div class="card-body p-0">
-            <table class="table table-sm table-striped mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Mahkeme</th>
-                        <th>Esas No</th>
-                        <th>Karar No</th>
-                        <th>Kesinleşme Tarihi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var d in ViewBag.YaklasanDosyalar)
-                    {
+    <div class="container">
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-danger text-white fw-bold">
+                ⏳ Kesinleşme Süresi Yaklaşan Dosyalar (7 Gün İçinde)
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-sm table-striped mb-0">
+                    <thead class="table-light">
                         <tr>
-                            <td>@d.MahkemeAdi</td>
-                            <td>@d.EsasNo</td>
-                            <td>@d.KararNo</td>
-                            <td>@Convert.ToDateTime(d.KesinlesmeTarihi).ToString("dd.MM.yyyy")</td>
+                            <th>Mahkeme</th>
+                            <th>Esas No</th>
+                            <th>Karar No</th>
+                            <th>Kesinleşme Tarihi</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in ViewBag.YaklasanDosyalar)
+                        {
+                            <tr>
+                                <td>@d.MahkemeAdi</td>
+                                <td>@d.EsasNo</td>
+                                <td>@d.KararNo</td>
+                                <td>@Convert.ToDateTime(d.KesinlesmeTarihi).ToString("dd.MM.yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="container">
+
+            <a class="btn btn-warning" asp-action="HarcListesi">Harç Listesi</a>
         </div>
     </div>
 }
